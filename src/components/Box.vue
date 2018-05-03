@@ -10,7 +10,9 @@ export default {
   name: 'DraggableBox',
   props: ['startConnect'],
   mounted () {
-    jsPlumb.draggable(this.$attrs.id)
+    jsPlumb.draggable(this.$attrs.id, {
+      containment: true
+    })
   }
 }
 </script>
