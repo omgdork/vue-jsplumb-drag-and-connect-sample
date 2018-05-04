@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <textarea class="txt-box" draggable="true" rows="3"></textarea>
+    <textarea class="txt-box" rows="3"></textarea>
     <button class="btn-connect" @mousedown="startConnect">+</button>
   </div>
 </template>
@@ -10,9 +10,11 @@ export default {
   name: 'DraggableBox',
   props: ['startConnect'],
   mounted () {
-    jsPlumb.draggable(this.$attrs.id, {
+    const box = jsPlumb.draggable(this.$attrs.id, {
       containment: true
     })
+
+    box.bind('connectionDetached', this.$attrs.detachConnection)
   }
 }
 </script>

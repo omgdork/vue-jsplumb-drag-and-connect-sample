@@ -7,6 +7,7 @@
         v-bind:key="box.id"
         v-bind:id="box.id"
         :startConnect="startConnect"
+        :detachConnection="detachConnection"
       ></draggable-box>
     </section>
   </div>
@@ -33,7 +34,8 @@ export default {
     addBox () {
       this.boxes.push({
         id: `box-${++this.latestBoxId}`,
-        text: ''
+        text: '',
+        connections: []
       })
     },
     startConnect (e) {
@@ -54,9 +56,26 @@ export default {
           endpoint: 'Dot'
         })
 
+        jsPlumb.repaintEverything()
+
+        this.boxes.find(({ id }) => id === this.connectSource).connections.push(box.id)
+        this.boxes.find(({ id }) => id === box.id).connections.push(this.connectSource)
+
         this.isConnecting = false
         this.connectSource = null
+
+        console.log('connected', this.boxes)
       }
+    },
+    detachConnection (e) {
+      const { sourceId, targetId } = e
+      const source = this.boxes.find(({ id }) => id === sourceId)
+      const target = this.boxes.find(({ id }) => id === targetId)
+
+      source.connections = source.connections.filter((id) => id !== targetId)
+      target.connections = target.connections.filter((id) => id !== sourceId)
+
+      console.log('disconnected', this.boxes)
     }
   },
   mounted () {
