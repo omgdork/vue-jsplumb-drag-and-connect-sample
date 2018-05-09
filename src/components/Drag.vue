@@ -4,8 +4,8 @@
     <section id="sec-drag">
       <draggable-box
         v-for="box in boxes"
-        v-bind:key="box.id"
-        v-bind:id="box.id"
+        :key="box.id"
+        :id="box.id"
         :startConnect="startConnect"
         :detachConnection="detachConnection"
       ></draggable-box>
@@ -92,7 +92,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   outline: none;

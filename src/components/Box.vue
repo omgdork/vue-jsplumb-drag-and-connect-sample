@@ -8,18 +8,27 @@
 <script>
 export default {
   name: 'DraggableBox',
-  props: ['startConnect'],
+  props: {
+    startConnect: {
+      type: Function,
+      required: true
+    },
+    detachConnection: {
+      type: Function,
+      required: false
+    }
+  },
   mounted () {
     const box = jsPlumb.draggable(this.$attrs.id, {
       containment: true
     })
 
-    box.bind('connectionDetached', this.$attrs.detachConnection)
+    box.bind('connectionDetached', this.$props.detachConnection)
   }
 }
 </script>
 
-<style>
+<style scoped>
 .box {
   background: #fff;
   border: 1px solid #eee;
